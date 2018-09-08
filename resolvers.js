@@ -1,7 +1,13 @@
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
+const NOTIFICATION_SUBSCRIPTION_TOPIC = 'newNotifications'
+
 const notifications = []
 const resolvers = {
   Query: {
-    notifications: () => notifications
+    notifications: (root, args) => {
+      return []
+    }
   },
   Mutation: {
     pushNotification: (root, args) => {
@@ -10,6 +16,11 @@ const resolvers = {
 
       return newNotification
     }
+  },
+  Subscription: {
+    newNotification: {
+      subscribe: () => pubsub.asyncIterator(NOTIFICATION_SUBSCRIPTION_TOPIC)
+    }
   }
 }
-export default resolvers
+module.exports.resolvers = resolvers

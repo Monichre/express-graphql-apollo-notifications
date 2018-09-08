@@ -1,8 +1,10 @@
+const { gql } = require('apollo-server-express')
 
-const typeDefs = `
+const typeDefs = gql`
   type Query {
     notifications: [Notification]
   }
+
   type Notification {
     label: String
   }
@@ -10,5 +12,9 @@ const typeDefs = `
   type Mutation { 
     pushNotification(label: String!): Notification 
   }
+
+  type Subscription {
+    newNotification: Notification
+  }
 `
-export default typeDefs
+module.exports.typeDefs = typeDefs
