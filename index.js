@@ -2,20 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {graphqlExpress, graphiqlExpress} = require('apollo-server-express')
 const {makeExecutableSchema} = require('graphql-tools')
-
-const notifications = []
-const typeDefs = `type Query {
-  notifications: [Notification]
-}
-type Notification {
-  label: String
-}`
-
-const resolvers = {
-  Query: {
-    notifications: () => notifications
-  }
-}
+const typeDefs = require('./schema')
+const resolvers = require('./resolvers')
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 const app = express()
